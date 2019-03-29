@@ -57,6 +57,8 @@ s1s_len_test = np.asarray(s1s_len_test)
 s2s_len_test = np.asarray(s2s_len_test)
 labels_test = np.asarray(labels_test)
 
+batch_size = 32
+num_batch = seq1_input.shape[0]//batch_size
 with tf.Session() as sess:
     model = MatchLSTM(vocab_size=len(vocab), sentence_size=max_len_q, embedding_size=300,
                           word_embedding=embed_matrix, session=sess)
@@ -64,9 +66,10 @@ with tf.Session() as sess:
 
     for epoch in range(300):
         print('Train on iteration {}'.format(epoch))
-        loss, _, step = sess.run([model.loss_op, model.train_op, model.global_step],
-                                     feed_dict={model.premises: seq1_input, model.hypotheses: seq2_input,
-                                                model.labels: labels_train, model.lr: 0.001})
+        for i in range(num_batch):
+            loss, _, step = sess.run([model.loss_op, model.train_op, model.global_step],
+                                        feed_dict={model.premises: seq1_input[i:(i+1)*batch_size], model.hypotheses: seq2_input[i:(i+1)*batch_size],
+                                                    model.labels: labels_train[i:(i+1)*batch_size], model.lr: 0.001})
 
         labels_dev_pred = sess.run(model.predict_op,
                                     feed_dict={model.premises: seq1_input_dev, model.hypotheses: seq2_input_dev,
