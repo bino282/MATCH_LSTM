@@ -29,7 +29,7 @@ class MatchLSTM():
                                        name='premises')
         self.hypotheses = tf.placeholder(shape=[None, self._sentence_size], dtype=tf.int32,
                                          name='hypotheses')
-        self.labels = tf.placeholder(shape=[None, 1], dtype=tf.float32,
+        self.labels = tf.placeholder(shape=[None], dtype=tf.float32,
                                      name='labels')
         self._batch_size = tf.shape(self.premises)[0]
 
@@ -124,6 +124,7 @@ class MatchLSTM():
         cross_entropy_sum = tf.reduce_sum(cross_entropy, name='cross_entropy_sum')
         self.loss_op = tf.div(cross_entropy_sum, tf.cast(self._batch_size, dtype=tf.float32))
         self.predict_op = tf.arg_max(self.logits, dimension=1)
+        self.predict_prob = tf.nn.softmax(self.logits)[:,1]
 
     @staticmethod
     def _length(sequence):
