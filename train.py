@@ -59,6 +59,7 @@ labels_test = np.asarray(labels_test)
 
 batch_size = 32
 num_batch = seq1_input.shape[0]//batch_size
+saver = tf.train.Saver()
 with tf.Session() as sess:
     model = MatchLSTM(vocab_size=len(vocab), sentence_size=max_len_q, embedding_size=300,
                           word_embedding=embed_matrix, session=sess)
@@ -82,6 +83,8 @@ with tf.Session() as sess:
                                                 model.labels: labels_test})
         MAP_test,MRR_test = map_score(s1s_test,s2s_test,labels_test_pred,labels_test)
         print('MAP_test = {}, MRR_test = {}'.format(MAP_test,MRR_test))
+        save_path = saver.save(sess, "/tmp/model-epochs-{}.ckpt".format(epoch))
+        print("Model saved in path: %s" % save_path)
 
     
     
