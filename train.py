@@ -59,12 +59,11 @@ labels_test = np.asarray(labels_test)
 
 batch_size = 32
 num_batch = seq1_input.shape[0]//batch_size
-saver = tf.train.Saver()
 with tf.Session() as sess:
     model = MatchLSTM(vocab_size=len(vocab), sentence_size=max_len_q, embedding_size=300,
                           word_embedding=embed_matrix, session=sess)
     sess.run(tf.global_variables_initializer())
-
+    saver = tf.train.Saver()
     print("=" * 50)
     print("List of Variables:")
     for v in tf.trainable_variables():
