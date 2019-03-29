@@ -118,7 +118,7 @@ class MatchLSTM():
             b_fc = tf.get_variable(shape=[self._num_class],
                                    initializer=self._initializer, name='b_fc')
             self.logits = tf.matmul(self.h_m_tensor, w_fc) + b_fc
-        cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=self.labels,
+        cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=self.labels,
                                                                 logits=self.logits,
                                                                 name='cross_entropy')
         cross_entropy_sum = tf.reduce_sum(cross_entropy, name='cross_entropy_sum')
