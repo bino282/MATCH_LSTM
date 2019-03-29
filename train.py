@@ -65,6 +65,12 @@ with tf.Session() as sess:
                           word_embedding=embed_matrix, session=sess)
     sess.run(tf.global_variables_initializer())
 
+    print("=" * 50)
+    print("List of Variables:")
+    for v in tf.trainable_variables():
+        print(v.name)
+    print("=" * 50)
+
     for epoch in range(300):
         print('Train on iteration {}'.format(epoch))
         for i in range(num_batch):
