@@ -29,7 +29,7 @@ class MatchLSTM():
                                        name='premises')
         self.hypotheses = tf.placeholder(shape=[None, self._sentence_size], dtype=tf.int32,
                                          name='hypotheses')
-        self.labels = tf.placeholder(shape=[None, self._num_class], dtype=tf.float32,
+        self.labels = tf.placeholder(shape=[None, 1], dtype=tf.float32,
                                      name='labels')
         self._batch_size = tf.shape(self.premises)[0]
 
