@@ -1,6 +1,5 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import tensorflow as tf
 import numpy as np
 import tensorflow.contrib as contrib
 
@@ -23,6 +22,8 @@ class MatchLSTM():
         self._build_inputs_and_vars()
         self._inference()
         self._initial_optimizer()
+
+        self.save = tf.save
 
     def _build_inputs_and_vars(self):
         self.premises = tf.placeholder(shape=[None, self._sentence_size], dtype=tf.int32,
