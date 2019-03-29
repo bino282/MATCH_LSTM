@@ -1,0 +1,27 @@
+{
+    "TRAIN":{
+        "path":"./data/train/",
+        "files":[
+            "SemEval2016-Task3-CQA-QL-train-part1-subtaskA.xml",
+            "SemEval2016-Task3-CQA-QL-train-part2-subtaskA.xml",
+            "SemEval2015-Task3-CQA-QL-dev-reformatted-excluding-2016-questions-cleansed.xml",
+            "SemEval2015-Task3-CQA-QL-test-reformatted-excluding-2016-questions-cleansed.xml",
+            "SemEval2015-Task3-CQA-QL-train-reformatted-excluding-2016-questions-cleansed.xml",
+            "SemEval2016-Task3-CQA-QL-dev-subtaskA.xml"
+        ]
+    },
+    "DEV":{
+        "path":"./data/dev/",
+        "files":[
+            "SemEval2016-Task3-CQA-QL-test-subtaskA-input.xml"
+        ]
+    },
+    "TEST":{
+        "path":"./data/test/",
+        "files":[
+            "SemEval2017-task3-English-test-subtaskA-input.xml"
+        ],
+        "goldLabels":"SemEval2017-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy",
+        "predictions":"SemEval2017-Task3-CQA-QL-test-subtaskA.xml.subtaskA.pred"
+    }
+}
