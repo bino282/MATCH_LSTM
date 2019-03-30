@@ -174,9 +174,9 @@ def map_score(s1s_dev,s2s_dev,y_pred,labels_dev):
         s1 = " ".join(s1s_dev[i])
         s2 = " ".join(s2s_dev[i])
         if s1 in QA_pairs:
-            QA_pairs[s1].append((s2, labels_dev[i], pred[1]))
+            QA_pairs[s1].append((s2, labels_dev[i], pred))
         else:
-            QA_pairs[s1] = [(s2, labels_dev[i], pred[1])]
+            QA_pairs[s1] = [(s2, labels_dev[i], pred)]
 
     MAP, MRR = 0, 0
     num_q = len(QA_pairs.keys())
