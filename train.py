@@ -92,7 +92,7 @@ with tf.Session() as sess:
         MAP_test,MRR_test = map_score(s1s_test,s2s_test,labels_test_pred,labels_test)
         print('MAP_test = {}, MRR_test = {}'.format(MAP_test,MRR_test))
         if(MAP_dev > _map_dev):
-            save_path = saver.save(sess, "/tmp/model-epochs-{}-{}-{}.ckpt".format(epoch,MAP_dev,MAP_test))
+            save_path = saver.save(sess, "./tmp/model-epochs-{}-{}-{}.ckpt".format(epoch,MAP_dev,MAP_test))
             print("Model saved in path: %s" % save_path)
             _map_dev = MAP_dev
 
