@@ -70,6 +70,7 @@ with tf.Session() as sess:
         print(v.name)
     print("=" * 50)
 
+    _map_dev = 0
     for epoch in range(300):
         print('----------------Train on iteration {} --------------------'.format(epoch))
         for i in range(num_batch):
@@ -90,8 +91,10 @@ with tf.Session() as sess:
                                                 model.labels: labels_test})
         MAP_test,MRR_test = map_score(s1s_test,s2s_test,labels_test_pred,labels_test)
         print('MAP_test = {}, MRR_test = {}'.format(MAP_test,MRR_test))
-        save_path = saver.save(sess, "/tmp/model-epochs-{}.ckpt".format(epoch))
-        print("Model saved in path: %s" % save_path)
+        if(MAP_dev > _map_dev):
+            save_path = saver.save(sess, "/tmp/model-epochs-{}-{}-{}.ckpt".format(epoch,MAP_dev,MAP_test))
+            print("Model saved in path: %s" % save_path)
+            _map_dev = MAP_dev
 
     
     
