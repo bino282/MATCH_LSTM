@@ -71,17 +71,18 @@ with tf.Session() as sess:
     print("=" * 50)
 
     for epoch in range(300):
-        print('Train on iteration {}'.format(epoch))
-        for i in range(num_batch):
-            if(i%5==0):
-                print('running on batch {}'.format(i))
-            loss, _, step = sess.run([model.loss_op, model.train_op, model.global_step],
-                                        feed_dict={model.premises: seq1_input[i*batch_size:(i+1)*batch_size], model.hypotheses: seq2_input[i*batch_size:(i+1)*batch_size],
-                                                    model.labels: labels_train[i*batch_size:(i+1)*batch_size], model.lr: 0.001})
+        # print('Train on iteration {}'.format(epoch))
+        # for i in range(num_batch):
+        #     if(i%5==0):
+        #         print('running on batch {}'.format(i))
+        #     loss, _, step = sess.run([model.loss_op, model.train_op, model.global_step],
+        #                                 feed_dict={model.premises: seq1_input[i*batch_size:(i+1)*batch_size], model.hypotheses: seq2_input[i*batch_size:(i+1)*batch_size],
+        #                                             model.labels: labels_train[i*batch_size:(i+1)*batch_size], model.lr: 0.001})
 
         labels_dev_pred = sess.run(model.predict_op,
                                     feed_dict={model.premises: seq1_input_dev, model.hypotheses: seq2_input_dev,
                                                 model.labels: labels_dev})
+        print(labels_dev_pred)
         MAP_dev,MRR_dev = map_score(s1s_dev,s2s_dev,labels_dev_pred,labels_dev)
         print('MAP_dev = {}, MRR_dev = {}'.format(MAP_dev,MRR_dev))
 
