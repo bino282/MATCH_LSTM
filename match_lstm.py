@@ -38,56 +38,12 @@ class MatchLSTM():
                                      name='new_lr')
         self.lr_update_op = tf.assign(self.lr, self.new_lr)
 
-        with tf.variable_scope(self._name):
-            self._word_embedding = tf.get_variable(name='word_embedding',
-                                                   shape=[self._vocab_size, self._embedding_size],
-                                                   initializer=tf.constant_initializer(self._we),
-                                                   trainable=False)
-
-        self._embed_pre = self._embed_inputs(self.premises, self._word_embedding)
-        self._embed_hyp = self._embed_inputs(self.hypotheses, self._word_embedding)
-
-    def _embed_inputs(self, inputs, embeddings):
-        ndim0_tensor_arr = tf.TensorArray(dtype=tf.float32, size=self._batch_size)
-        i = tf.constant(0)
-        c = lambda x, y, z, n: tf.less(x, self._batch_size)
-        b = lambda x, y, z, n: self._embed_line(x, y, z, n)
-        res = tf.while_loop(cond=c, body=b,
-                            loop_vars=(i, inputs, embeddings, ndim0_tensor_arr))
-        ndim0_tensor = res[-1].stack()
-        ndim0_tensor = tf.reshape(ndim0_tensor, [-1, self._sentence_size, self._embedding_size])
-        return ndim0_tensor
-    
-    def _embed_line(self, i, inputs, embeddings, ndim0_tensor_arr):
-        ndim1_list = []
-        for j in range(self._sentence_size):
-            word = inputs[i][j]
-            unk_word = tf.constant(-1)
-            f1 = lambda: tf.squeeze(tf.nn.embedding_lookup(params=embeddings, ids=word))
-            f2 = lambda: tf.zeros(shape=[self._embedding_size])
-            res_tensor = tf.case([(tf.not_equal(word, unk_word), f1)], default=f2)
-            ndim1_list.append(res_tensor)
-        for j in range(self._sentence_size):
-            word = inputs[i][j]
-            unk_word = tf.constant(-1)
-            f1 = lambda: self._ave_vec(ndim1_list, j)
-            f2 = lambda: ndim1_list[j]
-            ndim1_list[j] = tf.case([(tf.not_equal(word, unk_word), f2)],
-                                    default=f1)
-        ndim1_tensor = tf.stack(ndim1_list)
-        ndim0_tensor_arr = ndim0_tensor_arr.write(i, ndim1_tensor)
-        i = tf.add(i, 1)
-        return i, inputs, embeddings, ndim0_tensor_arr
+        with tf.variable_scope('{}_embeddings'.format(self._name)):
+            self._word_embedding = tf.Variable(self._we, dtype= tf.float32)
+        self._embed_pre = tf.nn.embedding_lookup(self._word_embedding,self.premises)
+        self._embed_hyp = tf.nn.embedding_lookup(self._word_embedding,self.hypotheses)
 
     
-    def _ave_vec(self, embed_list, cur_pos):
-        left_pos = max(0, cur_pos - self._window_size)
-        right_pos = min(cur_pos + self._window_size, self._sentence_size)
-        e_list = embed_list[left_pos:cur_pos] + embed_list[cur_pos + 1:right_pos + 1]
-        e_tensor = tf.stack(e_list)
-        ave_tensor = tf.reduce_mean(e_tensor, axis=0)
-        return ave_tensor
-
     def _inference(self):
         with tf.variable_scope('{}_lstm_s'.format(self._name)):
             lstm_s = contrib.rnn.BasicLSTMCell(num_units=self._embedding_size, forget_bias=0.0)

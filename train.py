@@ -57,7 +57,7 @@ s1s_len_test = np.asarray(s1s_len_test)
 s2s_len_test = np.asarray(s2s_len_test)
 labels_test = np.asarray(labels_test)
 
-batch_size = 128
+batch_size = 256
 num_batch = seq1_input.shape[0]//batch_size
 with tf.Session() as sess:
     model = MatchLSTM(vocab_size=len(vocab), sentence_size=max_len_q, embedding_size=300,
