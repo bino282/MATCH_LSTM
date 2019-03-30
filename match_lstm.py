@@ -6,7 +6,7 @@ import tensorflow as tf
 class MatchLSTM():
     def __init__(self,vocab_size,sentence_size,embedding_size,
                 word_embedding,initializer=tf.truncated_normal_initializer(stddev=0.1),
-                session = tf.Session(),num_class =2,window_size = 4,name = 'MatchLSTM',initial_lr = 0.001):
+                session = tf.Session(),num_class =2,name = 'MatchLSTM',initial_lr = 0.001):
 
         self._vocab_size = vocab_size
         self._sentence_size = sentence_size
@@ -15,7 +15,6 @@ class MatchLSTM():
         self._initializer = initializer
         self._name = name
         self._num_class = num_class
-        self._window_size = window_size
         self._sess = session
         self._initial_lr = initial_lr
 
