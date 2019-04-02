@@ -23,9 +23,9 @@ class MatchLSTM():
         self._initial_optimizer()
 
     def _build_inputs_and_vars(self):
-        self.premises = tf.placeholder(shape=[None, self._sentence_size], dtype=tf.int32,
+        self.premises = tf.placeholder(shape=[None, self._sentence_size], dtype = tf.int32,
                                        name='premises')
-        self.hypotheses = tf.placeholder(shape=[None, self._sentence_size], dtype=tf.int32,
+        self.hypotheses = tf.placeholder(shape=[None, self._sentence_size], dtype = tf.int32,
                                          name='hypotheses')
         self.labels = tf.placeholder(shape=[None], dtype=tf.int32,
                                      name='labels')

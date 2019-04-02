@@ -73,7 +73,7 @@ with tf.Session() as sess:
     _map_dev = 0
     for epoch in range(300):
         print('----------------Train on iteration {} --------------------'.format(epoch))
-        for i in range(num_batch):
+        for i in range(num_batch+1):
             if(i%5==0):
                 print('running... on batch {}'.format(i))
             loss, _, step = sess.run([model.loss_op, model.train_op, model.global_step],
