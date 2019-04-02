@@ -53,10 +53,10 @@ class MatchLSTM():
                                        dtype=tf.float32)
             self.h_s = h_s
 
-        with tf.variable_scope('{}_lstm_t'.format(self._name)):
-            lstm_t = contrib.rnn.BasicLSTMCell(num_units=self._embedding_size, forget_bias=0.0)
+        # with tf.variable_scope('{}_lstm_t'.format(self._name)):
+            # lstm_t = contrib.rnn.BasicLSTMCell(num_units=self._embedding_size, forget_bias=0.0)
             hyp_length = self._length(self.hypotheses)
-            h_t, _ = tf.nn.dynamic_rnn(lstm_t, self._embed_hyp, sequence_length=hyp_length,
+            h_t, _ = tf.nn.dynamic_rnn(lstm_s, self._embed_hyp, sequence_length=hyp_length,
                                        dtype=tf.float32)
             self.h_t = h_t
         
