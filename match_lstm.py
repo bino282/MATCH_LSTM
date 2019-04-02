@@ -39,8 +39,10 @@ class MatchLSTM():
 
         with tf.variable_scope('{}_embeddings'.format(self._name)):
             self._word_embedding = tf.Variable(self._we, dtype= tf.float32)
-        self._embed_pre = tf.nn.embedding_lookup(self._word_embedding,self.premises)
-        self._embed_hyp = tf.nn.embedding_lookup(self._word_embedding,self.hypotheses)
+        self._embed_pre_no = tf.nn.embedding_lookup(self._word_embedding,self.premises)
+        self._embed_pre = tf.nn.dropout(self._embed_pre_no, 0.5)
+        self._embed_hyp_no = tf.nn.embedding_lookup(self._word_embedding,self.hypotheses)
+        self._embed_hyp = tf.nn.dropout(self._embed_hyp_no, 0.5)
 
     
     def _inference(self):
