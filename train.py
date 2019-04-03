@@ -64,6 +64,7 @@ with tf.Session() as sess:
                           word_embedding=embed_matrix, session=sess)
     sess.run(tf.global_variables_initializer())
     saver = tf.train.Saver()
+    saver.restore(sess, "./tmp/model.ckpt")
     print("=" * 50)
     print("List of Variables:")
     for v in tf.trainable_variables():
