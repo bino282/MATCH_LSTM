@@ -48,9 +48,9 @@ s2s_len_dev = np.asarray(s2s_len_dev)
 labels_dev = np.asarray(labels_dev)
 
 s1s_test,s2s_test,subj_test,users_test,labels_test,cat_test = read_constructData(data_test)
-seq1_input_test = convertData_model(s1s_test,voc2index,max_len=max_len_q)
-seq2_input_test = convertData_model(s2s_test,voc2index,max_len=max_len_a)
-subj_input_test = convertData_model(subj_test,voc2index,max_len=max_len_s)
+seq1_input_test = convertData_model(s1s_test,voc2index,max_len = max_len_q)
+seq2_input_test = convertData_model(s2s_test,voc2index,max_len = max_len_a)
+subj_input_test = convertData_model(subj_test,voc2index,max_len = max_len_s)
 s1s_len_test = [len(s.split()) for s in s1s_test]
 s2s_len_test = [len(s.split()) for s in s2s_test]
 s1s_len_test = np.asarray(s1s_len_test)
@@ -60,11 +60,10 @@ labels_test = np.asarray(labels_test)
 batch_size = 256
 num_batch = seq1_input.shape[0]//batch_size
 with tf.Session() as sess:
-    model = MatchLSTM(vocab_size=len(vocab), sentence_size=max_len_q, embedding_size=300,
-                          word_embedding=embed_matrix, session=sess)
+    model = MatchLSTM(vocab_size=len(vocab), sentence_size = max_len_q, embedding_size=300,
+                          word_embedding = embed_matrix, session=sess)
     sess.run(tf.global_variables_initializer())
     saver = tf.train.Saver()
-    saver.restore(sess, "./tmp/model.ckpt")
     print("=" * 50)
     print("List of Variables:")
     for v in tf.trainable_variables():
