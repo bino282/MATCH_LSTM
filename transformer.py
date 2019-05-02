@@ -64,7 +64,7 @@ model = get_model(
     encoder_num = max_len,
     decoder_num = max_len,
     head_num=6,
-    hidden_dim=256,
+    hidden_dim=128,
     attention_activation='relu',
     feed_forward_activation='relu',
     dropout_rate=0.05,
@@ -75,7 +75,7 @@ model = get_model(
 def model_qa():
     seq1_in = model.inputs[0]
     seq2_in = model.inputs[1]
-    final_rep = model.get_layer("Decoder-2-FeedForward-Norm").ouputs
+    final_rep = model.get_layer("Decoder-2-FeedForward-Norm")
     out = Dense(2,activation="softmax")(final_rep)
     return Model(inputs=[seq1_in,seq2_in],outputs=out)
     
