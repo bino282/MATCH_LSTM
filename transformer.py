@@ -45,7 +45,7 @@ max_len = 100
 encoder_inputs_no_padding = []
 encoder_inputs, decoder_inputs, decoder_outputs = [], [], []
 for i in range(0, len(s1s_train)):
-    encode_tokens, decode_tokens = s1s_train[i], s2s_train[i]
+    encode_tokens, decode_tokens = s1s_train[i].split()[0:max_len], s2s_train[i].split()[0:max_len]
     encode_tokens = ['<START>'] + encode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(encode_tokens))
     output_tokens = decode_tokens + ['<END>', '<PAD>'] + ['<PAD>'] * (max_len - len(decode_tokens))
     decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len())
