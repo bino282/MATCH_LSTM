@@ -6,6 +6,7 @@ from utils import *
 import pickle
 import tensorflow as tf
 from keras.layers import *
+from keras.models import Model
 
 path_dev = './data/test/SemEval2016-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy'
 path_test= './data/test/SemEval2017-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy'
