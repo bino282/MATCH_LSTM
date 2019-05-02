@@ -48,7 +48,7 @@ for i in range(0, len(s1s_train)):
     encode_tokens, decode_tokens = s1s_train[i].split()[0:max_len], s2s_train[i].split()[0:max_len]
     encode_tokens = ['<START>'] + encode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(encode_tokens))
     output_tokens = decode_tokens + ['<END>', '<PAD>'] + ['<PAD>'] * (max_len - len(decode_tokens))
-    decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len())
+    decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(decode_tokens))
     encode_tokens = list(map(lambda x: token_dict[x], encode_tokens))
     decode_tokens = list(map(lambda x: token_dict[x], decode_tokens))
     output_tokens = list(map(lambda x: [token_dict[x]], output_tokens))
