@@ -2,12 +2,14 @@
     "TRAIN":{
         "path":"./data/train/",
         "files":[
-            "SemEval2016-Task3-CQA-QL-train-part1-subtaskA.xml",
-            "SemEval2016-Task3-CQA-QL-train-part2-subtaskA.xml",
             "SemEval2015-Task3-CQA-QL-dev-reformatted-excluding-2016-questions-cleansed.xml",
             "SemEval2015-Task3-CQA-QL-test-reformatted-excluding-2016-questions-cleansed.xml",
             "SemEval2015-Task3-CQA-QL-train-reformatted-excluding-2016-questions-cleansed.xml",
+            "SemEval2016-Task3-CQA-QL-train-part1-subtaskA.xml",
+            "SemEval2016-Task3-CQA-QL-train-part2-subtaskA.xml",
             "SemEval2016-Task3-CQA-QL-dev-subtaskA.xml"
+
+
         ]
     },
     "DEV":{

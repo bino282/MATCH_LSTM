@@ -24,7 +24,9 @@ vocab, voc2index, index2voc = creat_vocab(s1s_train+s2s_train)
 with open('voc2index.pkl','wb') as fw:
     pickle.dump(voc2index,fw)
 print('vocab_size: ',len(vocab))
+
 embed_matrix = read_embed(path_embeding,embed_size=300,vocab=vocab)
+
 max_len_q = 150
 max_len_a = 150
 max_len_s = 150
