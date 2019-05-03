@@ -1,6 +1,6 @@
 import json
 from utils import *
-from model import biMPM,lstm_cnn,lstm_cnn_att_sub,selfatt,mvrnn
+from model import biMPM,lstm_cnn,lstm_cnn_att_sub,selfatt,mvrnn,self_matching
 from keras import optimizers
 import keras.backend as K
 from keras.callbacks import ModelCheckpoint,EarlyStopping
@@ -63,7 +63,7 @@ try:
     print("Load model success......")
 except:
     print("Creating new model......")
-    model_lstm = selfatt.SELF_ATT(config=model_config).model
+    model_lstm = self_matching.SELF_MATCH(config=model_config).model
 print(model_lstm.summary())
 optimize = optimizers.Adam(lr=0.0001)
 model_lstm.compile(loss='sparse_categorical_crossentropy',optimizer=optimize,metrics=['accuracy'])

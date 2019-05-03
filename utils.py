@@ -169,7 +169,7 @@ def predictAux(q_w, c_w,voc2index,max_len,model):
 def map_score(s1s_dev,s2s_dev,y_pred,labels_dev):
     QA_pairs = {}
     for i in range(len(s1s_dev)):
-        pred = y_pred[i]
+        pred = y_pred[i][1]
 
         s1 = " ".join(s1s_dev[i])
         s2 = " ".join(s2s_dev[i])

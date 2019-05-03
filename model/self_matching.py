@@ -14,6 +14,7 @@ class SELF_MATCH():
         self.model = self.build()
     
     def build(self):
+
         H = self.config['hidden_size']
         v = SharedWeight(size=(H, 1), name='v')
         WQ_u = SharedWeight(size=(2 * H, H), name='WQ_u')
@@ -63,9 +64,7 @@ class SELF_MATCH():
         rQ = QuestionPooling() ([seq1_rep_rnn, WQ_u, WQ_v, v, VQ_r])
         rQ = Dropout(rate=self.config['dropout_rate'], name='rQ') (rQ)
 
-
-        
-
+       
         att = Attention(8, 64)
 
         final_rep = att([seq1_rep_rnn,seq2_rep_rnn,seq2_rep_rnn])
