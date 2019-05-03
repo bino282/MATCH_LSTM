@@ -62,7 +62,7 @@ def gen_toy_data(s1,s2):
         decode_tokens = list(map(lambda x: token_dict[x] , decode_tokens))
         # output_tokens = list(map(lambda x: [token_dict[x]], output_tokens))
         # encoder_inputs_no_padding.append(encode_tokens[:i + 2])
-        print(encode_tokens)
+        print(len(encode_tokens))
         encoder_inputs.append(encode_tokens)
         decoder_inputs.append(decode_tokens)
         # decoder_outputs.append(output_tokens)
