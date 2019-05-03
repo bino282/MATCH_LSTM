@@ -71,7 +71,7 @@ model = get_model(
     feed_forward_activation ='relu',
     dropout_rate = 0.05,
     embed_weights = embed_matrix,
-    embed_trainable = True
+    embed_trainable = True,
 )
 
 def model_qa():
