@@ -19,8 +19,8 @@ def load_data(path):
             tokens = line.strip().split('\t')
             s1.append(preprocessor(tokens[0]))
             s2.append(preprocessor(tokens[1]))
-            label.append(tokens[2])
-    return s1,s2,label
+            label.append(int(tokens[2]))
+    return s1,s2,np.asarray(label)
 
 
 path_embeding = '../local/word_vector/gensim_glove_vectors.txt'
