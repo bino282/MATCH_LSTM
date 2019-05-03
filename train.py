@@ -21,7 +21,7 @@ s1s_train,s2s_train,labels_train= load_data('./data/train.txt')
 s1s_dev,s2s_dev,labels_dev= load_data('./data/dev.txt')
 s1s_test,s2s_test,labels_test= load_data('./data/test.txt')
 
-vocab, voc2index, index2voc = creat_vocab(s1s_train+s2s_train)
+vocab, voc2index, index2voc = creat_vocab(s1s_train + s2s_train)
 
 with open('voc2index.pkl','wb') as fw:
     pickle.dump(voc2index,fw)
