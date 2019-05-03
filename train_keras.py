@@ -1,6 +1,6 @@
 import json
 from utils import *
-from model import biMPM,lstm_cnn,lstm_cnn_att_sub,selfatt,mvrnn,self_matching
+from model import biMPM,lstm_cnn,lstm_cnn_att_sub,selfatt,mvrnn
 from keras import optimizers
 import keras.backend as K
 from keras.callbacks import ModelCheckpoint,EarlyStopping
