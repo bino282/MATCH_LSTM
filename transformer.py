@@ -17,10 +17,10 @@ fileList = config['TRAIN']['files']
 data_train = constructData(dataPath, fileList)
 dataPath = config['DEV']['path']
 fileList = config['DEV']['files']
-data_dev = constructData(dataPath, fileList,mode='DEV',path_dev=path_dev)
+data_dev = constructData(dataPath, fileList,mode='DEV',path_dev = path_dev)
 dataPath = config['TEST']['path']
 fileList = config['TEST']['files']
-data_test = constructData(dataPath, fileList,mode='DEV',path_dev=path_test)
+data_test = constructData(dataPath, fileList,mode='DEV',path_dev = path_test)
 
 s1s_train,s2s_train,subj_train,users_train,labels_train,cat_train = read_constructData(data_train)
 
@@ -45,7 +45,7 @@ max_len = 100
 encoder_inputs_no_padding = []
 encoder_inputs, decoder_inputs, decoder_outputs = [], [], []
 for i in range(0, len(s1s_train)):
-    encode_tokens, decode_tokens = s1s_train[i].split()[0:max_len], s2s_train[i].split()[0:max_len]
+    encode_tokens, decode_tokens = nvi[i].split()[0:max_len-2], s2s_train[i].split()[0:max_len-2]
     encode_tokens = ['<START>'] + encode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(encode_tokens))
     output_tokens = decode_tokens + ['<END>', '<PAD>'] + ['<PAD>'] * (max_len - len(decode_tokens))
     decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(decode_tokens))
@@ -63,19 +63,19 @@ model = get_model(
     embed_dim = 300,
     encoder_num = max_len,
     decoder_num = max_len,
-    head_num=6,
-    hidden_dim=128,
-    attention_activation='relu',
-    feed_forward_activation='relu',
-    dropout_rate=0.05,
-    embed_weights=embed_matrix,
-    embed_trainable= True
+    head_num = 6,
+    hidden_dim = 128,
+    attention_activation ='relu',
+    feed_forward_activation ='relu',
+    dropout_rate = 0.05,
+    embed_weights = embed_matrix,
+    embed_trainable = True
 )
 
 def model_qa():
     seq1_in = model.inputs[0]
     seq2_in = model.inputs[1]
-    final_rep = model.get_layer("Decoder-2-FeedForward-Norm")
+    final_rep = model.get_layer("Decoder-2-FeedForward-Norm")(seq1_in,seq2_in)
     out = Dense(2,activation="softmax")(final_rep)
     return Model(inputs=[seq1_in,seq2_in],outputs=out)
     
