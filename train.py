@@ -3,21 +3,23 @@ from utils import *
 import pickle
 import tensorflow as tf
 from match_lstm import MatchLSTM
-path_dev = './data/test/SemEval2016-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy'
-path_test= './data/test/SemEval2017-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy'
-path_embeding = '../local/word_vector/gensim_glove_vectors.txt'
-config = json.load(open('config.json', 'r'))
-dataPath = config['TRAIN']['path']
-fileList = config['TRAIN']['files']
-data_train = constructData(dataPath, fileList)
-dataPath = config['DEV']['path']
-fileList = config['DEV']['files']
-data_dev = constructData(dataPath, fileList,mode='DEV',path_dev=path_dev)
-dataPath = config['TEST']['path']
-fileList = config['TEST']['files']
-data_test = constructData(dataPath, fileList,mode='DEV',path_dev=path_test)
 
-s1s_train,s2s_train,subj_train,users_train,labels_train,cat_train = read_constructData(data_train)
+def load_data(path):
+    s1 = []
+    s2 = []
+    label= []
+    with open(path,'r',encoding='utf-8') as lines:
+        for line in lines:
+            tokens = line.strip().split('\t')
+            s1.append(preprocessor(tokens[0]))
+            s2.append(preprocessor(tokens[1]))
+            label.append(tokens[2])
+    return s1,s2,label
+
+path_embeding = '../local/word_vector/gensim_glove_vectors.txt'
+s1s_train,s2s_train,labels_train= load_data('./data/train.txt')
+s1s_dev,s2s_dev,labels_dev= load_data('./data/dev.txt')
+s1s_test,s2s_test,labels_test= load_data('./data/test.txt')
 
 vocab, voc2index, index2voc = creat_vocab(s1s_train+s2s_train)
 
@@ -32,31 +34,15 @@ max_len_a = 150
 max_len_s = 150
 seq1_input = convertData_model(s1s_train,voc2index,max_len=max_len_q)
 seq2_input = convertData_model(s2s_train,voc2index,max_len=max_len_a)
-subj_input = convertData_model(subj_train,voc2index,max_len = max_len_s)
-s1s_len_train = [len(s.split()) for s in s1s_train]
-s2s_len_train = [len(s.split()) for s in s2s_train]
-s1s_len_train = np.asarray(s1s_len_train)
-s2s_len_train = np.asarray(s2s_len_train)
 labels_train = np.asarray(labels_train)
 
-s1s_dev,s2s_dev,subj_dev,users_dev,labels_dev,cat_dev = read_constructData(data_dev)
+
 seq1_input_dev = convertData_model(s1s_dev,voc2index,max_len=max_len_q)
 seq2_input_dev = convertData_model(s2s_dev,voc2index,max_len=max_len_a)
-subj_input_dev = convertData_model(subj_dev,voc2index,max_len=max_len_s)
-s1s_len_dev = [len(s.split()) for s in s1s_dev]
-s2s_len_dev = [len(s.split()) for s in s2s_dev]
-s1s_len_dev = np.asarray(s1s_len_dev)
-s2s_len_dev = np.asarray(s2s_len_dev)
 labels_dev = np.asarray(labels_dev)
 
-s1s_test,s2s_test,subj_test,users_test,labels_test,cat_test = read_constructData(data_test)
 seq1_input_test = convertData_model(s1s_test,voc2index,max_len = max_len_q)
 seq2_input_test = convertData_model(s2s_test,voc2index,max_len = max_len_a)
-subj_input_test = convertData_model(subj_test,voc2index,max_len = max_len_s)
-s1s_len_test = [len(s.split()) for s in s1s_test]
-s2s_len_test = [len(s.split()) for s in s2s_test]
-s1s_len_test = np.asarray(s1s_len_test)
-s2s_len_test = np.asarray(s2s_len_test)
 labels_test = np.asarray(labels_test)
 
 batch_size = 256

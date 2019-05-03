@@ -8,21 +8,23 @@ import tensorflow as tf
 from keras.layers import *
 from keras.models import Model
 
-path_dev = './data/test/SemEval2016-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy'
-path_test= './data/test/SemEval2017-Task3-CQA-QL-test-subtaskA.xml.subtaskA.relevancy'
-path_embeding = '../local/word_vector/gensim_glove_vectors.txt'
-config = json.load(open('config.json', 'r'))
-dataPath = config['TRAIN']['path']
-fileList = config['TRAIN']['files']
-data_train = constructData(dataPath, fileList)
-dataPath = config['DEV']['path']
-fileList = config['DEV']['files']
-data_dev = constructData(dataPath, fileList,mode='DEV',path_dev = path_dev)
-dataPath = config['TEST']['path']
-fileList = config['TEST']['files']
-data_test = constructData(dataPath, fileList,mode='DEV',path_dev = path_test)
+def load_data(path):
+    s1 = []
+    s2 = []
+    label= []
+    with open(path,'r',encoding='utf-8') as lines:
+        for line in lines:
+            tokens = line.strip().split('\t')
+            s1.append(preprocessor(tokens[0]))
+            s2.append(preprocessor(tokens[1]))
+            label.append(tokens[2])
+    return s1,s2,label
 
-s1s_train,s2s_train,subj_train,users_train,labels_train,cat_train = read_constructData(data_train)
+
+path_embeding = '../local/word_vector/gensim_glove_vectors.txt'
+s1s_train,s2s_train,labels_train= load_data('./data/train.txt')
+s1s_dev,s2s_dev,labels_dev= load_data('./data/dev.txt')
+s1s_test,s2s_test,labels_test= load_data('./data/test.txt')
 
 
 token_dict = {
