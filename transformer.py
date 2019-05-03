@@ -49,20 +49,22 @@ embed_matrix = read_embed(path_embeding,embed_size=300,vocab=list(token_dict.key
 
 def gen_toy_data(s1,s2):
     # Generate toy data
-    encoder_inputs_no_padding = []
+    # encoder_inputs_no_padding = []
     encoder_inputs, decoder_inputs, decoder_outputs = [], [], []
     for i in range(0, len(s1)):
-        encode_tokens, decode_tokens = s1[i].split()[0:max_len-2], s2[i].split()[0:max_len-2]
+        _s1 = [w for w in s1[i].split() if w in token_dict]
+        _s2 = [w for w in s2[i].split() if w in token_dict]
+        encode_tokens, decode_tokens = _s1[0:max_len-2], _s2[0:max_len-2]
         encode_tokens = ['<START>'] + encode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(encode_tokens))
-        output_tokens = decode_tokens + ['<END>', '<PAD>'] + ['<PAD>'] * (max_len - len(decode_tokens))
+        # output_tokens = decode_tokens + ['<END>', '<PAD>'] + ['<PAD>'] * (max_len - len(decode_tokens))
         decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(decode_tokens))
         encode_tokens = list(map(lambda x: token_dict[x], encode_tokens))
-        decode_tokens = list(map(lambda x: token_dict[x], decode_tokens))
-        output_tokens = list(map(lambda x: [token_dict[x]], output_tokens))
-        encoder_inputs_no_padding.append(encode_tokens[:i + 2])
+        decode_tokens = list(map(lambda x: token_dict[x] , decode_tokens))
+        # output_tokens = list(map(lambda x: [token_dict[x]], output_tokens))
+        # encoder_inputs_no_padding.append(encode_tokens[:i + 2])
         encoder_inputs.append(encode_tokens)
         decoder_inputs.append(decode_tokens)
-        decoder_outputs.append(output_tokens)
+        # decoder_outputs.append(output_tokens)
     return np.asarray(encoder_inputs),np.asarray(decoder_inputs)
 
 seq1_input,seq2_input = gen_toy_data(s1s_train,s2s_train)
@@ -108,7 +110,7 @@ for epoch in range(150):
     MAP_dev,MRR_dev = map_score(s1s_dev,s2s_dev,y_pred,labels_dev)
     print('MAP_dev = {}, MRR_dev = {}'.format(MAP_dev,MRR_dev))
     if(MAP_dev>MAP_last):
-        model_qa.save('./model_saved/model-lstm-cnn.h5')
+        model_qa.save('./model_saved/model-trans.h5')
         print('Model saved !')
         MAP_last = MAP_dev                                              
     y_test = model_qa.predict([seq1_input_test,seq2_input_test])
