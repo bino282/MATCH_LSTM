@@ -55,14 +55,13 @@ def gen_toy_data(s1,s2):
         _s1 = [w for w in s1[i].split() if w in token_dict]
         _s2 = [w for w in s2[i].split() if w in token_dict]
         encode_tokens, decode_tokens = _s1[0:max_len-2], _s2[0:max_len-2]
-        encode_tokens = ['<START>'] + encode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(encode_tokens))
+        encode_tokens = ['<START>'] + encode_tokens + ['<END>'] + ['<PAD>'] * (max_len-2 - len(encode_tokens))
         # output_tokens = decode_tokens + ['<END>', '<PAD>'] + ['<PAD>'] * (max_len - len(decode_tokens))
-        decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len - len(decode_tokens))
+        decode_tokens = ['<START>'] + decode_tokens + ['<END>'] + ['<PAD>'] * (max_len-2 - len(decode_tokens))
         encode_tokens = list(map(lambda x: token_dict[x], encode_tokens))
         decode_tokens = list(map(lambda x: token_dict[x] , decode_tokens))
         # output_tokens = list(map(lambda x: [token_dict[x]], output_tokens))
         # encoder_inputs_no_padding.append(encode_tokens[:i + 2])
-        print(len(encode_tokens))
         encoder_inputs.append(encode_tokens)
         decoder_inputs.append(decode_tokens)
         # decoder_outputs.append(output_tokens)
