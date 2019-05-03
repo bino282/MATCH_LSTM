@@ -77,7 +77,7 @@ model = get_model(
 def model_qa():
     seq1_in = model.inputs[0]
     seq2_in = model.inputs[1]
-    final_rep = model.get_layer("Decoder-2-FeedForward-Norm")(seq1_in,seq2_in)
+    final_rep = model.get_layer("Decoder-2-FeedForward-Norm").output(seq1_in,seq2_in)
     out = Dense(2,activation="softmax")(final_rep)
     return Model(inputs=[seq1_in,seq2_in],outputs=out)
     
