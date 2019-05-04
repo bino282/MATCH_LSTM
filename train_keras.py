@@ -31,9 +31,9 @@ with open('voc2index.pkl','wb') as fw:
     pickle.dump(voc2index,fw)
 print('vocab_size: ',len(vocab))
 embed_matrix = read_embed(path_embeding,embed_size=300,vocab=vocab)
-max_len_q = 100
-max_len_a = 100
-max_len_s = 100
+max_len_q = 150
+max_len_a = 150
+max_len_s = 150
 seq1_input = convertData_model(s1s_train,voc2index,max_len=max_len_q)
 seq2_input = convertData_model(s2s_train,voc2index,max_len=max_len_a)
 labels_train = np.asarray(labels_train)
@@ -59,7 +59,7 @@ def ranknet(y_true, y_pred):
     return K.mean(K.log(1. + K.exp(-(y_true * y_pred - (1-y_true) * y_pred))), axis=-1)
 
 try:
-    model_lstm = load_model("./model_saved/model-lstm-cnn.h5")
+    model_lstm = load_model("./model_saved/model.h5")
     print("Load model success......")
 except:
     print("Creating new model......")
@@ -79,10 +79,10 @@ for epoch in range(150):
     y_pred = model_lstm.predict([seq1_input_dev,seq2_input_dev])
     MAP_dev,MRR_dev = map_score(s1s_dev,s2s_dev,y_pred,labels_dev)
     print('MAP_dev = {}, MRR_dev = {}'.format(MAP_dev,MRR_dev))
-    if(MAP_dev>MAP_last):
-        model_lstm.save('./model_saved/model-lstm-cnn.h5')
-        print('Model saved !')
-        MAP_last = MAP_dev                                              
     y_test = model_lstm.predict([seq1_input_test,seq2_input_test])
     MAP_test,MRR_test = map_score(s1s_test,s2s_test,y_test,labels_test)
     print('MAP_test = {}, MRR_test = {}'.format(MAP_test,MRR_test))
+    if(MAP_dev>MAP_last):
+        model_lstm.save('./model_saved/model-{}-{}-{}.h5'.format(epoch,MAP_dev,MAP_test))
+        print('Model saved !')
+        MAP_last = MAP_dev                                              
