@@ -54,7 +54,7 @@ model_config={'seq1_maxlen':max_len_q,'seq2_maxlen':max_len_a,'seq3_maxlen':max_
                 'embed_trainable':True,
                 'channel':5,
                 'aggre_size':100,
-                'target_mode':'ranking'}
+                'target_mode':'classification'}
 def ranknet(y_true, y_pred):
     return K.mean(K.log(1. + K.exp(-(y_true * y_pred - (1-y_true) * y_pred))), axis=-1)
 
