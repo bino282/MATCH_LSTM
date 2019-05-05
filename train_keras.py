@@ -63,7 +63,7 @@ try:
     print("Load model success......")
 except:
     print("Creating new model......")
-    model_lstm = selfatt.SELF_ATT(config=model_config).model
+    model_lstm = biMPM.BiMPM(config=model_config).model
 print(model_lstm.summary())
 optimize = optimizers.Adam(lr=0.0001)
 model_lstm.compile(loss='sparse_categorical_crossentropy',optimizer=optimize,metrics=['accuracy'])
