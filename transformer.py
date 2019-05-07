@@ -73,12 +73,6 @@ class EmbeddingSim(keras.layers.Layer):
             outputs = K.bias_add(outputs, self.bias)
         return keras.activations.softmax(outputs)
 
-
-    def get_custom_objects():
-        return {
-            'EmbeddingRet': EmbeddingRet,
-            'EmbeddingSim': EmbeddingSim,
-        }
 def load_data(path):
     s1 = []
     s2 = []
@@ -160,7 +154,6 @@ def model_qa():
     seq2_in = model.inputs[1]
     decode_layer = model.get_layer("Decoder-2-FeedForward-Norm").output
     final_rep = TimeDistributed(Dense(2, use_bias=False))(decode_layer)
-    final_rep = Flatten()(final_rep)
     return Model(inputs=[seq1_in,seq2_in],outputs=final_rep)
     
 model_qa = model_qa()
